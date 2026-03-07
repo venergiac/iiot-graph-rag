@@ -1,0 +1,71 @@
+services:
+  jupyterlab:
+    container_name: jupyter-datascience
+    #image: quay.io/jupyter/datascience-notebook:latest
+    image: quay.io/jupyter/pytorch-notebook:cuda13-latest
+    restart: always
+    volumes:
+      - .:/home/jovyan/work
+    environment:
+      - JUPYTER_TOKEN=admin
+    ports:
+      - '8888:8888'
+    networks:
+      - mypc
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+  neo4j:
+    container_name: neo4j
+    image: neo4j:2025.11.2
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_apoc_export_file_enabled=true 
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_PLUGINS=["graph-data-science", "apoc"]
+      - NEO4J_dbms_security_procedures_whitelist=gds.*, apoc.*
+      - NEO4J_dbms_security_procedures_unrestricted=gds.*, apoc.*
+    ports:
+      - '7474:7474'
+      - '7687:7687'
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - mypc
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    networks:
+      - mypc
+    volumes:
+      - ollama_volume:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+volumes:
+  ollama_volume:  
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: C:\Users\212442540\.ollama
+  neo4j_data:  
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: C:\Users\212442540\Documents\workspace\neo4j\data
+networks:
+  mypc:

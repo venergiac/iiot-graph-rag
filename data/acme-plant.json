@@ -1,0 +1,98 @@
+{
+  "company_info": {
+    "corporate": "ACME Limited",
+    "industry": "Petroleum, petrochemical and natural gas industries",
+    "standard_reference": "ISO 14224:2016"
+  },
+  "installation_data": {
+    "level_3_installation": "ACME Plant",
+    "location": "Italy",
+    "operating_context": "Onshore Industrial"
+  },
+  "equipment_inventory": [
+    {
+      "equipment_id": "PUMP-001",
+      "taxonomy": {
+        "level_4_system": "Cooling System",
+        "level_5_subsystem": "Water Circulation",
+        "level_6_equipment_class": "Centrifugal Pump"
+      },
+      "technical_data": {
+        "manufacturer": "FluidDrive Corp",
+        "model": "X-Flow 500",
+        "operating_mode": "Continuous",
+        "design_capacity": "500 m3/h",
+        "criticality": "High"
+      },
+      "current_measurements": [
+        { "parameter": "Vibration Velocity", "value": 4.2, "unit": "mm/s", "status": "Normal" },
+        { "parameter": "Discharge Pressure", "value": 12.5, "unit": "bar", "status": "Normal" },
+        { "parameter": "Bearing Temperature", "value": 65.0, "unit": "°C", "status": "Warning" }
+      ],
+      "condition_monitoring_trends": [
+        {
+          "sensor_id": "VIB-SENS-01",
+          "parameter": "Vibration Velocity",
+          "data_points": [
+            { "ts": "2024-02-15T08:00:00Z", "val": 1.2, "status": "Normal" },
+            { "ts": "2024-02-15T12:00:00Z", "val": 4.8, "status": "Warning" },
+            { "ts": "2024-02-15T14:20:00Z", "val": 0.0, "status": "Down" }
+          ]
+        }
+      ]
+    },
+    {
+      "equipment_id": "PUMP-002",
+      "taxonomy": {
+        "level_6_equipment_class": "Centrifugal Pump"
+      },
+      "technical_data": {
+        "manufacturer": "FluidDrive Corp",
+        "model": "X-Flow 200",
+        "operating_mode": "Standby"
+      },
+      "current_measurements": [
+        { "parameter": "Vibration Velocity", "value": 1.8, "unit": "mm/s" },
+        { "parameter": "Suction Pressure", "value": 2.1, "unit": "bar" },
+        { "parameter": "Motor Current", "value": 45.0, "unit": "A" }
+      ]
+    },
+    {
+      "equipment_id": "WIND-TURB-01",
+      "taxonomy": {
+        "level_4_system": "Renewable Power",
+        "level_6_equipment_class": "Wind Turbine"
+      },
+      "technical_data": {
+        "manufacturer": "SkyEnergy",
+        "model": "V-120",
+        "rated_power": "2.5 MW"
+      },
+      "current_measurements": [
+        { "parameter": "Wind Speed", "value": 12.5, "unit": "m/s" },
+        { "parameter": "Gearbox Oil Temp", "value": 82.0, "unit": "°C", "status": "High" },
+        { "parameter": "Rotor Speed", "value": 14.2, "unit": "rpm" }
+      ]
+    }
+  ],
+  "reliability_data": {
+    "failure_events": [
+      {
+        "event_id": "FAIL-P001-01",
+        "equipment_ref": "PUMP-001",
+        "failure_date": "2024-02-15T14:20:00Z",
+        "failure_details": {
+          "level_7_item": "Mechanical Seal",
+          "failure_mode": "ELP",
+          "failure_mode_desc": "External leakage",
+          "failure_impact": "Critical",
+          "failure_mechanism": "Wear"
+        },
+        "maintenance_impact": {
+          "active_repair_time_hrs": 6.5,
+          "down_time_hrs": 14.0
+        }
+      }
+    ]
+  }
+}
