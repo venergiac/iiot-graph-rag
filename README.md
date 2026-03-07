@@ -23,7 +23,7 @@ start with
 ## Code
 * src/iso2neo4j.py - file to import data into neo4j database using GQL
 * src/graphrag-app.py - file for the app
-
+* src/start.ipynb - app to start application
 
 
 ## Credits
