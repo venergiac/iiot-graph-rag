@@ -2,7 +2,10 @@ services:
   jupyterlab:
     container_name: jupyter-datascience
     #image: quay.io/jupyter/datascience-notebook:latest
-    image: quay.io/jupyter/pytorch-notebook:cuda13-latest
+    #image: quay.io/jupyter/pytorch-notebook:cuda13-latest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile_ds
     restart: always
     volumes:
       - .:/home/jovyan/work

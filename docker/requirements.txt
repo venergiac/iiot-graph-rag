@@ -1,0 +1,7 @@
+ollama 
+pandas 
+neo4j 
+langchain  
+neo4j-graphrag[ollama]
+langchain-ollama 
+langchain.neo4j
