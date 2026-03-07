@@ -63,12 +63,12 @@ volumes:
         driver_opts:
             type: none
             o: bind
-            device: C:\Users\212442540\.ollama
+            device: C:\Users\admin\.ollama
   neo4j_data:  
         driver: local
         driver_opts:
             type: none
             o: bind
-            device: C:\Users\212442540\Documents\workspace\neo4j\data
+            device: C:\Users\admin\workspace\neo4j\data
 networks:
   mypc:
