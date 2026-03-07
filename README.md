@@ -6,7 +6,7 @@
 
 How to use Graph-RAG with Industrial Dataset.
 
-[architecture](/architecture.png)
+![architecture](/architecture.png)
 
 see docker-compose.yaml
 
