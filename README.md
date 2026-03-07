@@ -6,6 +6,13 @@
 
 How to use Graph-RAG with Industrial Dataset.
 
+[architecture](/architecture.png)
+
+see docker-compose.yaml
+
+start with
+
+    docker compose up
 
 ## Data
 
