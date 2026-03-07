@@ -18,3 +18,4 @@ How to use Graph-RAG with Industrial Dataset.
 
 
 ## Credits
+* [awesome-industrial-datasets](https://github.com/jonathanwvd/awesome-industrial-datasets)
