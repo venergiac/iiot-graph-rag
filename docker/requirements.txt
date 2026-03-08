@@ -2,6 +2,6 @@ ollama
 pandas 
 neo4j 
 langchain  
-neo4j-graphrag[ollama]
+neo4j-graphrag
 langchain-ollama 
 langchain.neo4j

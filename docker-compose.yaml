@@ -15,13 +15,13 @@ services:
       - '8888:8888'
     networks:
       - mypc
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    #deploy:
+    #  resources:
+    #    reservations:
+    #      devices:
+    #        - driver: nvidia
+    #          count: all
+    #          capabilities: [gpu]
   neo4j:
     container_name: neo4j
     image: neo4j:2025.11.2
