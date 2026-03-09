@@ -22,7 +22,7 @@ see docker-compose.yaml
 # How To
 
 ## Start Services
-start all the containers with
+:whale: start all the containers with
 
     docker compose up
 
@@ -75,13 +75,15 @@ Below the expected results:
 ![influxdb.png](influxdb.png)
 
 ## Finnaly Test Graph Rag
-To test GraphRag we need to pull mistral model; please connect to docker and pull mistral model
+To test GraphRag we need to pull mistral model; please connect to docker and pull mistral model.
 
+
+:whale: from command console
 ```
 docker compose exec ollama ollama pull mistral:7b-instruct
 ```
 
-Now test the model with the following code:
+:point_right:: Now test the model with the following code:
 
 ```
 from graphrag_app import OllamaGraphRAG
@@ -104,7 +106,7 @@ Full Context:
 ' A critical event of external leakage occurred at Equipment PUMP-001, with a duration of 14 hours. The mode of the event is wear.'
 ```
 
-More tests:
+:point_right: More tests:
 
 ```
 app.chat_with_rag("What is the Vibration Velocity of Equipment PUMP-001?")
