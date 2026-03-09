@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/home/jovyan/work
     environment:
-      - JUPYTER_TOKEN=admin
+      - JUPYTER_TOKEN=password
     ports:
       - '8888:8888'
     networks:
@@ -63,12 +63,12 @@ volumes:
         driver_opts:
             type: none
             o: bind
-            device: C:\Users\admin\.ollama
+            device: ${HOME:-${USERPROFILE}}\.ollama
   neo4j_data:  
         driver: local
         driver_opts:
             type: none
             o: bind
-            device: C:\Users\admin\workspace\neo4j\data
+            device: ${HOME:-${USERPROFILE}}\neo4j\data
 networks:
   mypc:

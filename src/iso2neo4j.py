@@ -7,6 +7,12 @@ class PlantDataImporter:
     
     def close(self):
         self.driver.close()
+
+    def clean_all_data(self):
+        with self.driver.session() as session:
+            session.run(
+                """MATCH (n)
+                DETACH DELETE n""")
     
     def import_plant_data(self, json_file):
         with open(json_file, 'r') as f:
@@ -14,17 +20,26 @@ class PlantDataImporter:
         
         with self.driver.session() as session:
             # Create company
+            company_name = data['company_info']['corporate']
             session.run(
-                "CREATE (c:Company {name: $name, industry: $industry, standard: $standard})",
-                name=data['company_info']['corporate'],
+                "CREATE (c:Company {id: $company_name, name: $company_name, industry: $industry, standard: $standard})",
+                company_name=company_name,
                 industry=data['company_info']['industry'],
                 standard=data['company_info']['standard_reference']
             )
+
+            
             
             # Create installation
+            installation_name=data['installation_data']['level_3_installation']
             session.run(
-                "CREATE (i:Installation {name: $name, location: $location, context: $context})",
-                name=data['installation_data']['level_3_installation'],
+                """
+                MATCH (c:Company {id: $company_name})
+                CREATE (i:Installation {id: $installation_name, name: $installation_name, location: $location, context: $context})
+                CREATE (c)-[:HAS_INSTALLATION]->(i)
+                """,
+                company_name=company_name,
+                installation_name=installation_name,
                 location=data['installation_data']['location'],
                 context=data['installation_data']['operating_context']
             )
@@ -35,11 +50,16 @@ class PlantDataImporter:
                 tech = equipment['technical_data']
                 
                 session.run(
-                    """CREATE (e:Equipment {
+                    """MATCH (i:Installation {id: $installation_name})
+                        CREATE (e:Equipment {
                         id: $id, manufacturer: $mfg, model: $model, 
                         operating_mode: $mode, criticality: $crit
-                    })""",
-                    id=eq_id, mfg=tech.get('manufacturer'), 
+                    })
+                    CREATE (e)-[:HAS_EQUIPMENT]->(i)
+                    """,
+                    installation_name=installation_name,
+                    id=eq_id, 
+                    mfg=tech.get('manufacturer'), 
                     model=tech.get('model'), mode=tech.get('operating_mode'),
                     crit=tech.get('criticality', 'Unknown')
                 )
@@ -48,9 +68,10 @@ class PlantDataImporter:
                 for measurement in equipment.get('current_measurements', []):
                     session.run(
                         """MATCH (e:Equipment {id: $eq_id})
-                           CREATE (m:Measurement {parameter: $param, value: $val, unit: $unit, status: $status})
+                           CREATE (m:Measurement {name: $param_name, value: $val, unit: $unit, status: $status})
                            CREATE (e)-[:HAS_MEASUREMENT]->(m)""",
-                        eq_id=eq_id, param=measurement['parameter'],
+                        eq_id=eq_id, 
+                        param_name=measurement['parameter'],
                         val=measurement['value'], unit=measurement.get('unit'),
                         status=measurement.get('status', 'Unknown')
                     )
