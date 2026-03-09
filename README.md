@@ -55,7 +55,48 @@ docker compose exec ollama ollama pull mistral:7b-instruct
 
 Now test the model with the following code:
 
+```
+from graphrag_app import OllamaGraphRAG
+app = OllamaGraphRAG("neo4j://neo4j","neo4j","password")
+app.chat_with_rag("Extract events occurred at Equipment PUMP-001")
+```
 
+The output 
+
+```
+Generated Cypher:
+
+MATCH (c:Company)-[:HAS_INSTALLATION]->(i:Installation)<-[:HAS_EQUIPMENT]- (e:Equipment {id: 'PUMP-001'})-[:EXPERIENCED_FAILURE]->(f:FailureEvent)
+RETURN f
+
+Full Context:
+[{'f': {'mode': 'External leakage', 'impact': 'Critical', 'id': 'FAIL-P001-01', 'mechanism': 'Wear', 'down_time_hrs': 14.0}}]
+
+> Finished chain.
+' A critical event of external leakage occurred at Equipment PUMP-001, with a duration of 14 hours. The mode of the event is wear.'
+```
+
+More tests:
+
+```
+app.chat_with_rag("What is the Vibration Velocity of Equipment PUMP-001?")
+```
+
+The output 
+
+```
+Generated Cypher:
+
+MATCH (equipment:Equipment {id: 'PUMP-001'})-[:HAS_MEASUREMENT]->(measurement)
+WHERE measurement.name = 'Vibration Velocity'
+RETURN measurement.value
+
+Full Context:
+[{'measurement.value': 4.2}]
+
+> Finished chain.
+' The vibration velocity of Equipment PUMP-001 is 4.2.'
+```
 
 ## Credits
 * [awesome-industrial-datasets](https://github.com/jonathanwvd/awesome-industrial-datasets)
