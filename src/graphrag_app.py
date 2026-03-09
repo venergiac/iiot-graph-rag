@@ -13,5 +13,5 @@ class OllamaGraphRAG:
         )
     
     def chat_with_rag(self, query):
-        return self.chain.run(query)
+        return self.chain.invoke(query)
 

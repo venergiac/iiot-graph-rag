@@ -5,3 +5,4 @@ langchain
 neo4j-graphrag
 langchain-ollama 
 langchain.neo4j
+influxdb-client

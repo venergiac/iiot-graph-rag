@@ -69,9 +69,9 @@
         "rated_power": "2.5 MW"
       },
       "current_measurements": [
-        { "parameter": "Wind Speed", "value": 12.5, "unit": "m/s" },
-        { "parameter": "Gearbox Oil Temp", "value": 82.0, "unit": "°C", "status": "High" },
-        { "parameter": "Rotor Speed", "value": 14.2, "unit": "rpm" }
+        { "parameter": "Wind Speed", "value": 5.5, "unit": "m/s" },
+        { "parameter": "Wind Direction", "value": 259.0, "unit": "°", "status": "High" },
+        { "parameter": "LV ActivePower", "value": 380.2, "unit": "kW" }
       ]
     }
   ],

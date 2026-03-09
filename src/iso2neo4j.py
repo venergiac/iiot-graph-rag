@@ -55,7 +55,7 @@ class PlantDataImporter:
                         id: $id, manufacturer: $mfg, model: $model, 
                         operating_mode: $mode, criticality: $crit
                     })
-                    CREATE (e)-[:HAS_EQUIPMENT]->(i)
+                    CREATE (i)-[:HAS_EQUIPMENT]->(e)
                     """,
                     installation_name=installation_name,
                     id=eq_id, 

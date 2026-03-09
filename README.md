@@ -21,6 +21,7 @@ see docker-compose.yaml
 
 # How To
 
+## Start Services
 start all the containers with
 
     docker compose up
@@ -45,6 +46,35 @@ and you will get the following graph
 ![graph_iso14224.png](graph_iso14224.png)
 
 
+## Import data into InfluxDb and Sync with Neo4J
+Now for each equipmente we import data into influxdb (I used 2 for simiplicity).
+
+Get all Equipments from NEO4J
+```
+import neo4j
+
+equipments = importer.driver.execute_query(
+    "MATCH (c:Company)-[:HAS_INSTALLATION]->(i:Installation)-[:HAS_EQUIPMENT]->(e:Equipment) RETURN c.id +'.'+ i.id + '.' + e.id AS EQUIPMENT",
+    database_="neo4j",
+    result_transformer_=neo4j.Result.to_df
+)
+```
+
+then import all file into InfluxDB
+
+```
+from csv2influxdb import EquipmentCsvInfluxImporter
+data_importer = EquipmentCsvInfluxImporter("http://influxdb:8086", "MyInitialAdminToken0==", "iiot", "measures", "../data")
+data_importer.import_all(equipments['EQUIPMENT'].values)
+```
+
+You can test your data on InfluxDB accessing to [http://localhost:8086/](http://localhost:8086/) with username / password = admin / password.
+
+Below the expected results:
+
+![influxdb.png](influxdb.png)
+
+## Finnaly Test Graph Rag
 To test GraphRag we need to pull mistral model; please connect to docker and pull mistral model
 
 ```
@@ -56,7 +86,7 @@ Now test the model with the following code:
 ```
 from graphrag_app import OllamaGraphRAG
 app = OllamaGraphRAG("neo4j://neo4j","neo4j","password")
-app.chat_with_rag("Extract events occurred at Equipment PUMP-001")
+app.chat_with_rag("Which events occurred at Equipment PUMP-001?")
 ```
 
 The output 

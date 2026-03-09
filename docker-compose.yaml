@@ -57,6 +57,27 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+  influxdb:
+      image: influxdb:2
+      ports:
+        - 8086:8086
+      environment:
+        DOCKER_INFLUXDB_INIT_MODE: setup
+        DOCKER_INFLUXDB_INIT_USERNAME: admin
+        DOCKER_INFLUXDB_INIT_PASSWORD: password
+        DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: MyInitialAdminToken0==
+        DOCKER_INFLUXDB_INIT_ORG: iiot
+        DOCKER_INFLUXDB_INIT_BUCKET: measures
+      volumes:
+        - type: volume
+          source: influxdb2-data
+          target: /var/lib/influxdb2
+        - type: volume
+          source: influxdb2-config
+          target: /etc/influxdb2
+      networks:
+        - mypc
 volumes:
   ollama_volume:  
         driver: local
@@ -70,5 +91,8 @@ volumes:
             type: none
             o: bind
             device: ${HOME:-${USERPROFILE}}\neo4j\data
+  influxdb2-data:
+  influxdb2-config:
+
 networks:
   mypc:
