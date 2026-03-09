@@ -26,8 +26,7 @@ see docker-compose.yaml
 
     docker compose up
 
-now you can connect to NEO4J
-* connect to neo4j [http://localhost:7474/browser/](http://localhost:7474/browser/) with username / passowrd = neo4j / password
+
 
 open datascience [http://localhost:8888/notebooks/work/src/start.ipynb](http://localhost:8888/notebooks/work/src/start.ipynb) (password is 'password') and import data
 
@@ -37,7 +36,9 @@ importer = PlantDataImporter("neo4j://neo4j","neo4j","password")
 importer.clean_all_data()
 importer.import_plant_data("../data/acme-plant.json")
 ```
-then on NEO4J run the following command to see the graph
+
+:rocket: Now you can connect to NEO4J: connect to neo4j [http://localhost:7474/browser/](http://localhost:7474/browser/) with username / passowrd = neo4j / password , then on NEO4J run the following command to see the graph:
+
 ```
 MATCH(n) RETURN n
 ```
@@ -47,9 +48,9 @@ and you will get the following graph
 
 
 ## Import data into InfluxDb and Sync with Neo4J
-Now for each equipmente we import data into influxdb (I used 2 for simiplicity).
+Now for each equipment we import data into influxdb (I used v2 for simiplicity).
 
-Get all Equipments from NEO4J
+:rocket: Get all Equipments from NEO4J
 ```
 import neo4j
 
@@ -68,7 +69,7 @@ data_importer = EquipmentCsvInfluxImporter("http://influxdb:8086", "MyInitialAdm
 data_importer.import_all(equipments['EQUIPMENT'].values)
 ```
 
-You can test your data on InfluxDB accessing to [http://localhost:8086/](http://localhost:8086/) with username / password = admin / password.
+:sparkles: You can test your data on InfluxDB accessing to [http://localhost:8086/](http://localhost:8086/) with username / password = admin / password.
 
 Below the expected results:
 
