@@ -92,7 +92,7 @@ To test GraphRag we need to pull mistral model; please connect to docker and pul
 docker compose exec ollama ollama pull mistral:7b-instruct
 ```
 
---
+----
 
 :point_right: Now test the model with the following code:
 
@@ -116,7 +116,8 @@ Full Context:
 > Finished chain.
 ' A critical event of external leakage occurred at Equipment PUMP-001, with a duration of 14 hours. The mode of the event is wear.'
 ```
---
+
+----
 
 :point_right: More tests:
 
