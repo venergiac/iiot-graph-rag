@@ -52,13 +52,7 @@ Now for each equipment we import data into influxdb (I used v2 for simiplicity).
 
 :rocket: Get all Equipments from NEO4J
 ```
-import neo4j
-
-equipments = importer.driver.execute_query(
-    "MATCH (c:Company)-[:HAS_INSTALLATION]->(i:Installation)-[:HAS_EQUIPMENT]->(e:Equipment) RETURN c.id +'.'+ i.id + '.' + e.id AS EQUIPMENT",
-    database_="neo4j",
-    result_transformer_=neo4j.Result.to_df
-)
+equipments = equipments = graph_importer.get_equipments()
 ```
 ----
 
