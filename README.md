@@ -75,6 +75,14 @@ Below the expected results:
 
 ![influxdb.png](influxdb.png)
 
+## Now sync data among NEO4j and last data point of Influxdb
+
+```
+from syncdbs import SyncDBs
+sync = SyncDBs(data_importer.client, graph_importer.driver)
+sync.sync()
+```
+
 ## Finnaly Test Graph Rag
 To test GraphRag we need to pull mistral model; please connect to docker and pull mistral model.
 
@@ -110,7 +118,7 @@ Full Context:
 :point_right: More tests:
 
 ```
-app.chat_with_rag("What is the Vibration Velocity of Equipment PUMP-001?")
+app.chat_with_rag("What is the Wind Speed of Equipment WIND-TURB-01?")
 ```
 
 The output 
@@ -118,16 +126,22 @@ The output
 ```
 Generated Cypher:
 
-MATCH (equipment:Equipment {id: 'PUMP-001'})-[:HAS_MEASUREMENT]->(measurement)
-WHERE measurement.name = 'Vibration Velocity'
-RETURN measurement.value
+MATCH (c:Company)-[:HAS_INSTALLATION]->(i:Installation)-[:HAS_EQUIPMENT]->(e:Equipment)
+WHERE e.id = 'WIND-TURB-01'
+OPTIONAL MATCH (e)-[:HAS_MEASUREMENT]->(m:Measurement)
+WHERE m.name = 'Wind Speed'
+RETURN m.value
 
 Full Context:
-[{'measurement.value': 4.2}]
+[{'m.value': 25.2060108184814}]
 
 > Finished chain.
-' The vibration velocity of Equipment PUMP-001 is 4.2.'
+{'query': 'What is the Wind Speed of Equipment WIND-TURB-01?',
+ 'result': ' The wind speed of Equipment WIND-TURB-01 is 25.2060108184814 [m/s].'}
 ```
+
+Exactley the last datapoint on InfluxDB
 
 ## Credits
 * [awesome-industrial-datasets](https://github.com/jonathanwvd/awesome-industrial-datasets)
+* [Hands-On Industrial Internet of Things: Build robust industrial IoT infrastructure by using the cloud and artificial intelligence 2nd ed. Edition](https://a.co/d/0dfb4HKH)

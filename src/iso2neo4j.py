@@ -1,9 +1,10 @@
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, Result
 import json
 
 class PlantDataImporter:
-    def __init__(self, uri, user, password):
+    def __init__(self, uri, user, password, database="neo4j"):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
+        self.database = database
     
     def close(self):
         self.driver.close()
@@ -92,3 +93,9 @@ class PlantDataImporter:
                     down_time=failure['maintenance_impact']['down_time_hrs']
                 )
 
+    def get_equipments(self):
+        return self.driver.execute_query(
+            "MATCH (c:Company)-[:HAS_INSTALLATION]->(i:Installation)-[:HAS_EQUIPMENT]->(e:Equipment) RETURN c.id +'.'+ i.id + '.' + e.id AS EQUIPMENT",
+            database_=self.database,
+            result_transformer_=Result.to_df
+        )
