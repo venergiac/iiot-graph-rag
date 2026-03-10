@@ -4,7 +4,14 @@
 
 # Project
 
-How to use Graph-RAG with Industrial Dataset.
+How to use Graph-RAG with Industrial Dataset. Below the proposed architecture:
+
+* import Asset Hierarchy based on ISO14224 into NEO4j
+* import data into InfluxDB
+* sync NEO4J and InfluxDb
+* start making question using Mistral and Ollama
+
+Below the proposed architecture based on docker:
 
 ![architecture](/architecture.png)
 
