@@ -60,8 +60,9 @@ equipments = importer.driver.execute_query(
     result_transformer_=neo4j.Result.to_df
 )
 ```
+----
 
-then import all file into InfluxDB
+Then import all file into InfluxDB
 
 ```
 from csv2influxdb import EquipmentCsvInfluxImporter
