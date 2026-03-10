@@ -23,8 +23,9 @@ class PlantDataImporter:
             # Create company
             company_name = data['company_info']['corporate']
             session.run(
-                "CREATE (c:Company {id: $company_name, name: $company_name, industry: $industry, standard: $standard})",
-                company_name=company_name,
+                "CREATE (c:Company {id: $id, name: $company_name, industry: $industry, standard: $standard})",
+                id=company_name,
+                company_name=company_name.lower(),
                 industry=data['company_info']['industry'],
                 standard=data['company_info']['standard_reference']
             )
@@ -36,11 +37,12 @@ class PlantDataImporter:
             session.run(
                 """
                 MATCH (c:Company {id: $company_name})
-                CREATE (i:Installation {id: $installation_name, name: $installation_name, location: $location, context: $context})
+                CREATE (i:Installation {id: $id, name: $installation_name, location: $location, context: $context})
                 CREATE (c)-[:HAS_INSTALLATION]->(i)
                 """,
                 company_name=company_name,
-                installation_name=installation_name,
+                id=installation_name,
+                installation_name=installation_name.lower(),
                 location=data['installation_data']['location'],
                 context=data['installation_data']['operating_context']
             )
@@ -53,13 +55,14 @@ class PlantDataImporter:
                 session.run(
                     """MATCH (i:Installation {id: $installation_name})
                         CREATE (e:Equipment {
-                        id: $id, manufacturer: $mfg, model: $model, 
+                        id: $id, name: $id, manufacturer: $mfg, model: $model, 
                         operating_mode: $mode, criticality: $crit
                     })
                     CREATE (i)-[:HAS_EQUIPMENT]->(e)
                     """,
                     installation_name=installation_name,
-                    id=eq_id, 
+                    id=eq_id,
+                    name=eq_id.lower(),
                     mfg=tech.get('manufacturer'), 
                     model=tech.get('model'), mode=tech.get('operating_mode'),
                     crit=tech.get('criticality', 'Unknown')
