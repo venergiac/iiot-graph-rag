@@ -103,7 +103,7 @@ class EquipmentCsvInfluxImporter:
             elif c == equipment_id:
                 pass
             else:
-                df[c] = pd.to_numeric(df[c], errors="ignore")
+                df[c] = pd.to_numeric(df[c], errors="coerce")
                 mapper[c] = f"{equipment_id}.{c}"
 
         # df.rename(columns=mapper, inplace=True)
