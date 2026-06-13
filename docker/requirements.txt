@@ -6,3 +6,9 @@ neo4j-graphrag
 langchain-ollama 
 langchain.neo4j
 influxdb-client
+litellm
+# openai-agents  # optional: required for examples/agentic_vectorless_rag_demo.py
+pymupdf
+PyPDF2
+python-dotenv
+pyyaml
